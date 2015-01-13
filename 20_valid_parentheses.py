@@ -9,38 +9,27 @@
 
 def isValid(s):
     lens = len(s)
-    if not lens:
-        return True
+    if lens % 2:
+        return False
     else:
-        if s[0] in ')}]':
-            return False
-        else:
-            stack = []
-            stack.append(s[0])
-            for i in range(1, lens):
-                if s[i] in '({[':
-                    stack.append(s[i])
-                elif s[i] == ')':
-                    if len(stack) and stack[-1] == '(':
-                        stack.pop()
-                    else:
-                        return False
-                elif s[i] == '}':
-                    if len(stack) and stack[-1] == '{':
-                        stack.pop()
-                    else:
-                        return False
-                elif s[i] == ']':
-                    if len(stack) and stack[-1] == '[':
-                        stack.pop()
-                    else:
-                        return False
-        if len(stack):
+        stack = ['e']
+        for i in range(lens):
+            if s[i] in '({[':
+                stack.append(s[i])
+            elif s[i] == ')' and stack[-1] == '(':
+                stack.pop()
+            elif s[i] == '}' and stack[-1] == '{':
+                stack.pop()
+            elif s[i] == ']' and stack[-1] == '[':
+                stack.pop()
+            else:
+                return False
+        if len(stack) != 1:
             return False
         else:
             return True
 
 
 if __name__ == '__main__':
-    s = '(])'
+    s = '(('
     print isValid(s)
